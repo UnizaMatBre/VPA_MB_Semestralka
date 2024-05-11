@@ -8,6 +8,10 @@ class Localization:
 def create_app(app_config):
     app = Flask(__name__)
 
+
+    app.config.from_object(app_config)
+
+
     # load localization (implement translations
     localization = Localization()
 
