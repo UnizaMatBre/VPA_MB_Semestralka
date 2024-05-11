@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Index</title>
+
+        <link rel="stylesheet" href="static/styles.css">
+    </head>
+
+    <body>
+        <div id="menu-section">
+            <menu>
+                <li><a href="/index">{{ localization["MENU_INDEX"] }}</a></li>
+            </menu>
+        </div>
+
+        <div id="page-section">
+            <div id="message-section" class="content-top-div hidden-div">
+                <div id="message-section-text"></div>
+                <div id="message-section-closing">
+                    <button class="standard-button" onclick="hideMessage()">X</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="content-section">
+            {% block content %}{% endblock %}
+        </div>
+
+        <hr />
+
+        <div id="footnote-section">
+            {{ localization["PAGE_FOOTNOTE"] }}
+        </div>
+
+    </body>
+</html>

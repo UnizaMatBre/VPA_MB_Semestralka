@@ -1,0 +1,109 @@
+* {
+    font-family: "Courier New", monospace;
+}
+
+#menu-section {
+	height: 100%;
+	width: 200px;
+	position: fixed;
+	z-index: 1;
+
+	top: 0;
+	left: 0;
+
+	background-color: #111;
+
+	padding: 0;
+	margin: 0;
+}
+
+
+#menu-section menu {
+	list-style-type: none;
+	display: block;
+
+	padding: 0;
+	margin: 0;
+
+	padding-top: 25px;
+}
+
+#menu-section menu li {
+	display: block;
+}
+
+#menu-section menu li a {
+	width: 100%;
+
+	border: none;
+	display: block;
+
+	background-color: transparent;
+	color: white;
+
+    text-decoration: none;
+
+	font-family: "Courier New", monospace;
+	font-size: 25px;
+}
+
+#menu-section menu li a:hover {
+	background-color: #303030;
+}
+
+#message-section-text {
+    flex: 1;
+
+    font-weight: bold;
+    color: white;
+}
+
+#message-section-closing {
+    width: 20px;
+}
+
+#message-section-closing button {
+    font-weight: bold;
+    color: white;
+}
+
+
+#page-section {
+	height: 100%;
+	margin-left: 200px;
+
+	padding: 25px;
+}
+
+
+.content-top-div {
+    background-color: yellow;
+    border: 2px solid gray;
+    border-radius: 15px;
+
+    padding: 20px;
+    margin: 10px 0;
+}
+
+.form-label-input-div {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 15px;
+}
+
+.hidden-div {
+    display: none;
+}
+
+
+
+.standard-button {
+    border: none;
+    background: transparent;
+    text-decoration: none;
+    text-align: center;
+}
+
+.standard-button:hover {
+    text-decoration: underline;
+}
