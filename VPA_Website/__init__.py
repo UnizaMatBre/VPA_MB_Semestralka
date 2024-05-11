@@ -11,6 +11,8 @@ def create_app(app_config):
     # load localization (implement translations
     localization = Localization()
 
+    from models import create_models
+    models = create_models(None)
 
     @app.route("/")
     @app.route("/index")
