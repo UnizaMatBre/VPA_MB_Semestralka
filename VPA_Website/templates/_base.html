@@ -20,16 +20,17 @@
                     <button class="standard-button" onclick="hideMessage()">X</button>
                 </div>
             </div>
-        </div>
 
-        <div id="content-section">
-            {% block content %}{% endblock %}
-        </div>
+            <div id="content-section">
+                {% block content %}{% endblock %}
+            </div>
 
-        <hr />
+            <hr />
 
-        <div id="footnote-section">
-            {{ localization["PAGE_FOOTNOTE"] }}
+            <div id="footnote-section">
+                {{ localization["PAGE_FOOTNOTE"] }}
+            </div>
+
         </div>
 
     </body>
