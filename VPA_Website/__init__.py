@@ -27,4 +27,10 @@ def create_app(app_config):
     def index_get():
         return render_template("index.html", localization=localization)
 
+    @app.route("/login", methods=["GET"])
+    def login_get():
+        """Handles login page"""
+        return render_template("login.html", localization=localization)
+
+
     return app
