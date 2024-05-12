@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+from flask_jwt_extended import JWTManager
 from flask_sqlalchemy import SQLAlchemy
 
 
@@ -9,9 +10,11 @@ class Localization:
 def create_app(app_config):
     app = Flask(__name__)
     db = SQLAlchemy()
+    jwt = JWTManager()
 
     app.config.from_object(app_config)
     db.init_app(app)
+    jwt.init_app(app)
 
     from models import create_models
     models = create_models(db)
