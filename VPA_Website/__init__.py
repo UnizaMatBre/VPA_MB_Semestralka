@@ -16,7 +16,7 @@ def create_app(app_config):
     db.init_app(app)
     jwt.init_app(app)
 
-    from models import create_models
+    from VPA_Website.models import create_models
     models = create_models(db)
 
     # load localization (implement translations
