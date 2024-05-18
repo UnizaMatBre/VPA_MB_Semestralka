@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify, make_response, redirect
-from flask_jwt_extended import JWTManager, set_access_cookies, create_access_token
+from flask_jwt_extended import JWTManager, set_access_cookies, create_access_token, jwt_required
 from flask_sqlalchemy import SQLAlchemy
 import bcrypt
 
@@ -26,6 +26,11 @@ def create_app(app_config):
     @app.route("/index")
     def index_get():
         return render_template("index.html", localization=localization)
+
+    @app.route("/protected", methods=["GET"])
+    @jwt_required()
+    def protected_get():
+        return "<h1>Successful login</h1>"
 
     @app.route("/login", methods=["GET"])
     def login_get():
