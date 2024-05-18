@@ -59,11 +59,11 @@ def create_app(app_config):
             return jsonify({"msg": "Bad credentials"}), 401
 
         # wrong password, return error
-        if not bcrypt.checkpw(bytes(input_password, "utf-8"), result.passhash):
+        if not bcrypt.checkpw(bytes(input_password, "utf-8"), bytes(result.passhash, "utf-8")):
             return jsonify({"msg": "Bad credentials"}), 401
 
         # everything is ok, generate token and response
-        response = make_response(redirect("login", 302))
+        response = make_response(redirect("/index", 302))
         access_token = create_access_token(identity=str(result.id))
         set_access_cookies(response, access_token)
 
