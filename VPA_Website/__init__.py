@@ -3,7 +3,6 @@ from flask_jwt_extended import JWTManager, set_access_cookies, create_access_tok
 from flask_sqlalchemy import SQLAlchemy
 import bcrypt
 
-
 class Localization:
     def __getitem__(self, name):
         return name
@@ -11,15 +10,14 @@ class Localization:
 
 def create_app(app_config, initialize_db=False):
     app = Flask(__name__)
-    db = SQLAlchemy()
     jwt = JWTManager()
 
     app.config.from_object(app_config)
-    db.init_app(app)
     jwt.init_app(app)
 
-    from VPA_Website.models import create_models
-    models = create_models(db)
+    import VPA_Website.models as models
+    db = models.db
+    db.init_app(app)
 
     # initialize database tables
     if initialize_db:
