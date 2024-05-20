@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify, make_response, redirect, Response
-from flask_jwt_extended import JWTManager, set_access_cookies, create_access_token, jwt_required
+from flask_jwt_extended import JWTManager, set_access_cookies, create_access_token, jwt_required, get_jwt_identity
 from flask_sqlalchemy import SQLAlchemy
 import bcrypt
 
@@ -138,5 +138,14 @@ def create_app(app_config, initialize_db=False):
         response.headers["Location"] = "/user/" + new_user
 
         return response
+
+    @app.route("/register", methods=["GET"])
+    @jwt_required(optional=True)
+    def register_get():
+        """Renders registration page"""
+
+        return render_template("register.html", localization=localization)
+
+
 
     return app
