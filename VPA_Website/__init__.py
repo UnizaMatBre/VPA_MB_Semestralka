@@ -79,4 +79,10 @@ def create_app(app_config, initialize_db=False):
 
         return response
 
+    @app.route("/user/<int:user_id>")
+    def user_by_id_get(user_id):
+        """Returns profile of user that has passed id"""
+
+        return render_template("user_profile.html", localization=Localization)
+
     return app
