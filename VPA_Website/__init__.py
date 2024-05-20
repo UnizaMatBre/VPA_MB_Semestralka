@@ -9,7 +9,11 @@ class Localization:
 
 
 def create_app(app_config, initialize_db=False):
-    app = Flask(__name__)
+    app = Flask(
+        __name__,
+        static_url_path="",
+        static_folder="static"
+    )
     jwt = JWTManager()
 
     app.config.from_object(app_config)
