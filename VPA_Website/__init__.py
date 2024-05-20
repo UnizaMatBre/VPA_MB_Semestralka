@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, make_response, redirect
+from flask import Flask, render_template, request, jsonify, make_response, redirect, Response
 from flask_jwt_extended import JWTManager, set_access_cookies, create_access_token, jwt_required
 from flask_sqlalchemy import SQLAlchemy
 import bcrypt
@@ -83,7 +83,7 @@ def create_app(app_config, initialize_db=False):
 
         return response
 
-    @app.route("/user/<int:user_id>")
+    @app.route("/user/<int:user_id>", methods=["GET"])
     def user_by_id_get(user_id):
         """Returns profile of user that has passed id"""
 
@@ -93,5 +93,50 @@ def create_app(app_config, initialize_db=False):
         ).scalar_one_or_none()
 
         return render_template("user_profile.html", localization=localization, user_obj=result)
+
+    @app.route("/user", methods=["POST"])
+    def user_post():
+        """Creates new user using data from request"""
+
+        # extract inputs
+        input_username = request.json.get("username", None)
+        input_password = request.json.get("password", None)
+
+        # check if fields are actually present
+        if input_username is None:
+            return jsonify({"msg": "Missing username"}), 422
+
+        # check if fields are actually present 2
+        if input_password is None:
+            return jsonify({"msg": "Missing password"}), 422
+
+        # find user with this exact same username
+        result: models.User = db.session.execute(
+            db.select(models.User).filter_by(username=input_username)
+        ).scalar_one_or_none()
+
+        # user already exists, return error
+        if result is not None:
+            return jsonify({"msg": "User already exists"}), 409
+
+        # generate password hash
+        input_passhash = bcrypt.hashpw(
+            password=bytes(input_password, "utf-8"),
+            salt=bcrypt.gensalt()
+        )
+
+        # create user
+        new_user = models.User(
+            username=input_username,
+            passhash=input_passhash
+        )
+
+        db.session.add(new_user)
+
+        # create response
+        response = make_response("", 201)
+        response.headers["Location"] = "/user/" + new_user
+
+        return response
 
     return app
