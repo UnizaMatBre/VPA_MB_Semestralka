@@ -27,8 +27,11 @@ def create_models(db):
             name: Mapped[str] = mapped_column(nullable=False)
             description: Mapped[str] = mapped_column(nullable=True)
 
+            items: Mapped[list["_Namespace.Item"]] = relationship()
+
         class Item(db.Model):
             id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+            category_id: Mapped["_Namespace.ItemCategory"] = mapped_column(ForeignKey("ItemCategory.id"))
 
             name: Mapped[str] = mapped_column(nullable=False)
             description: Mapped[str] = mapped_column(nullable=True)
