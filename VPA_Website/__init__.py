@@ -87,6 +87,11 @@ def create_app(app_config, initialize_db=False):
     def user_by_id_get(user_id):
         """Returns profile of user that has passed id"""
 
-        return render_template("user_profile.html", localization=Localization)
+        # find user with this id
+        result: models.User = db.session.execute(
+            db.select(models.User).filter_by(id=user_id)
+        ).scalar_one_or_none()
+
+        return render_template("user_profile.html", localization=localization, user_obj=result)
 
     return app
