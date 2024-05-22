@@ -79,15 +79,6 @@ def create_app(app_config, initialize_db=False):
 
 
 
-    @app.route("/register", methods=["GET"])
-    @jwt_required(optional=True)
-    def register_get():
-        """Renders registration page"""
 
-        if get_jwt_identity() is not None:
-            # TODO: Is 302 good here?
-            return redirect("/index", 302)
-
-        return render_template("register.html", auth_user=None, localization=localization)
 
     return app
