@@ -11,6 +11,25 @@
             <p>{{ localization['PAGE_PROFILE_PROJECT_COUNT'] }} : {{ user_obj.projects|length }}</p>
         </div>
 
+        {% if (auth_user is not none) and (user_obj.id == auth_user.id)  %}
+            <div class="content-top-div">
+                <h2>{{ localization['PAGE_USER_PROFILE_CREATE_PROJECT'] }}</h2>
+                <form id="create-project-form">
+                    <div class="form-label-input-div">
+                        <label for="project-name">{{localization["PAGE_USER_PROFILE_CREATE_PROJECT_NAME"]}}</label>
+                        <input type="text" name="project-name" id="project-name" required/>
+                    </div>
+
+                    <div class="form-label-input-div">
+                        <label for="project-desc">{{localization["PAGE_USER_PROFILE_CREATE_PROJECT_DESC"]}}</label>
+                        <input type="text" name="project-desc" id="project-desc" required/>
+                    </div>
+
+                    <input type="submit" value="{{ localization['PAGE_LOGIN_SUBMIT_LABEL'] }}" />
+                </form>
+            </div>
+        {% endif %}
+
         <hr />
 
         {% for one_project in user_obj.projects %}
