@@ -56,6 +56,10 @@ def create_app(app_config, initialize_db=False):
             db.select(models.User).filter_by(id=user_id)
         ).scalar_one_or_none()
 
+    # register blueprints
+    from VPA_Website.auth_views import create_auth_blueprint
+    app.register_blueprint(create_auth_blueprint(db, models))
+
     @app.route("/")
     @app.route("/index")
     @jwt_required(optional=True)
