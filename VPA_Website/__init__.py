@@ -97,6 +97,17 @@ def create_app(app_config, initialize_db=False):
 
         return response
 
+    @app.route("/logout", methods=["GET"])
+    @jwt_required()
+    def logout_get():
+        """Logs out current user"""
+
+        response = make_response(redirect('/index'))
+        unset_jwt_cookies(response)
+        return response, 302
+
+
+
     @app.route("/user/<int:user_id>", methods=["GET"])
     def user_by_id_get(user_id):
         """Returns profile of user that has passed id"""
