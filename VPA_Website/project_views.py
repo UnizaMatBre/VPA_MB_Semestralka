@@ -26,7 +26,7 @@ def create_project_blueprint(db, models, localization):
         )
 
     @project_blueprint.route("/project", methods=["POST"])
-    @jwt_required()
+    @jwt_required(optional=True)
     def project_post():
         """Creates news posts"""
 
@@ -34,6 +34,9 @@ def create_project_blueprint(db, models, localization):
         input_user = get_jwt_identity()
         input_name = request.json.get("name", None)
         input_desc = request.json.get("desc", None)
+
+        if input_user is None:
+            return jsonify({"msg": "Missing credentials"}), 401
 
         if input_name is None:
             return jsonify({"msg": "Missing project name"}), 422
@@ -54,7 +57,7 @@ def create_project_blueprint(db, models, localization):
         db.session.add(new_project)
         db.session.commit()
 
-        response = make_response(jsonify("{}"), 201)
+        response = make_response(jsonify({}), 201)
         response.headers["Location"] = "/project/{}".format(str(new_project.id))
 
         return response

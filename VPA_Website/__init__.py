@@ -36,12 +36,14 @@ def create_app(app_config, initialize_db=False):
     def handle_missing_auth_cookie(message):
         """Handler for requests with missing cookie"""
 
+        print("Unauthorized access")
         return redirect("/login", 302)
 
     @jwt.invalid_token_loader
     def handle_invalid_auth_cookie(message):
         """Handler for invalid tokens"""
 
+        print("Invalid access")
         response = make_response(redirect('/login'))
         unset_jwt_cookies(response)
         return response, 302
