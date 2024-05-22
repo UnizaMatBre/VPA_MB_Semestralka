@@ -73,7 +73,7 @@ def create_app(app_config, initialize_db=False):
             return jsonify({"msg": "Bad credentials"}), 401
 
         # wrong password, return error
-        if not bcrypt.checkpw(bytes(input_password, "utf-8"), bytes(result.passhash, "utf-8")):
+        if not bcrypt.checkpw(bytes(input_password, "utf-8"), result.passhash):
             return jsonify({"msg": "Bad credentials"}), 401
 
         # everything is ok, generate token and response
