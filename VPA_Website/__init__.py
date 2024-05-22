@@ -56,8 +56,13 @@ def create_app(app_config, initialize_db=False):
         return "<h1>Successful login</h1>"
 
     @app.route("/login", methods=["GET"])
+    @jwt_required(optional=True)
     def login_get():
         """Handles get request for login page"""
+
+        if get_jwt_identity() is not None:
+            # TODO: Is 302 good here?
+            return redirect("/index", 302)
 
         return render_template("login.html", localization=localization)
 
@@ -170,6 +175,10 @@ def create_app(app_config, initialize_db=False):
     @jwt_required(optional=True)
     def register_get():
         """Renders registration page"""
+
+        if get_jwt_identity() is not None:
+            # TODO: Is 302 good here?
+            return redirect("/index", 302)
 
         return render_template("register.html", localization=localization)
 
