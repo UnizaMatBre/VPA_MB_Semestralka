@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify, make_response, redirect, Response
-from flask_jwt_extended import JWTManager, set_access_cookies, create_access_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import JWTManager, set_access_cookies, create_access_token, jwt_required, get_jwt_identity, unset_jwt_cookies
 from flask_sqlalchemy import SQLAlchemy
 import bcrypt
 
@@ -36,6 +36,14 @@ def create_app(app_config, initialize_db=False):
         """Handler for requests with missing cookie"""
 
         return redirect("/login", 302)
+
+    @jwt.invalid_token_loader
+    def handle_invalid_auth_cookie(message):
+        """Handler for invalid tokens"""
+
+        response = make_response(redirect('/signup'))
+        unset_jwt_cookies(response)
+        return response, 302
 
     @app.route("/")
     @app.route("/index")
