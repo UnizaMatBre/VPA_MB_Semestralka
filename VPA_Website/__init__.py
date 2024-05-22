@@ -41,7 +41,7 @@ def create_app(app_config, initialize_db=False):
     def handle_invalid_auth_cookie(message):
         """Handler for invalid tokens"""
 
-        response = make_response(redirect('/signup'))
+        response = make_response(redirect('/login'))
         unset_jwt_cookies(response)
         return response, 302
 
