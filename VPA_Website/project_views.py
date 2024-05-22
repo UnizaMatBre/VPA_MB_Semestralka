@@ -11,6 +11,7 @@ def create_project_blueprint(db, models, localization):
     )
 
     @project_blueprint.route("/project/<int:project_id>")
+    @jwt_required(optional=True)
     def project_by_id_get(project_id):
         result = db.session.execute(
             db.select(models.Project).filter_by(id=project_id)
