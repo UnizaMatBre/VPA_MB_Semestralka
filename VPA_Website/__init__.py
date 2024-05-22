@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, jsonify, make_response, redirect, Response
-from flask_jwt_extended import JWTManager, set_access_cookies, create_access_token, jwt_required, get_jwt_identity, \
-    unset_jwt_cookies
+from flask_jwt_extended import JWTManager, set_access_cookies, create_access_token, jwt_required, get_jwt_identity, unset_jwt_cookies, get_current_user
 from flask_sqlalchemy import SQLAlchemy
 import bcrypt
 
@@ -47,7 +46,7 @@ def create_app(app_config, initialize_db=False):
         unset_jwt_cookies(response)
         return response, 302
 
-    @jwt.user_lookup_loader()
+    @jwt.user_lookup_loader
     def handle_user_load(jwt_header, jwt_payload):
         """Finds user with same id as is in cookie"""
 
@@ -59,8 +58,10 @@ def create_app(app_config, initialize_db=False):
 
     @app.route("/")
     @app.route("/index")
+    @jwt_required(optional=True)
     def index_get():
-        return render_template("index.html", localization=localization)
+
+        return render_template("index.html", auth_user=get_current_user(), localization=localization)
 
     @app.route("/protected", methods=["GET"])
     @jwt_required()
@@ -76,7 +77,7 @@ def create_app(app_config, initialize_db=False):
             # TODO: Is 302 good here?
             return redirect("/index", 302)
 
-        return render_template("login.html", localization=localization)
+        return render_template("login.html", auth_user=None, localization=localization)
 
     @app.route("/login", methods=["POST"])
     def login_post():
@@ -124,6 +125,7 @@ def create_app(app_config, initialize_db=False):
         return response, 302
 
     @app.route("/user/<int:user_id>", methods=["GET"])
+    @jwt_required(optional=True)
     def user_by_id_get(user_id):
         """Returns profile of user that has passed id"""
 
@@ -132,7 +134,7 @@ def create_app(app_config, initialize_db=False):
             db.select(models.User).filter_by(id=user_id)
         ).scalar_one_or_none()
 
-        return render_template("user_profile.html", localization=localization, user_obj=result)
+        return render_template("user_profile.html", auth_user=get_current_user(), localization=localization, user_obj=result)
 
     @app.route("/user", methods=["POST"])
     def user_post():
@@ -190,6 +192,6 @@ def create_app(app_config, initialize_db=False):
             # TODO: Is 302 good here?
             return redirect("/index", 302)
 
-        return render_template("register.html", localization=localization)
+        return render_template("register.html", auth_user=None, localization=localization)
 
     return app
