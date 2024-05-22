@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request, jsonify, make_response, redirect, Response
-from flask_jwt_extended import JWTManager, set_access_cookies, create_access_token, jwt_required, get_jwt_identity, unset_jwt_cookies
+from flask_jwt_extended import JWTManager, set_access_cookies, create_access_token, jwt_required, get_jwt_identity, \
+    unset_jwt_cookies
 from flask_sqlalchemy import SQLAlchemy
 import bcrypt
+
 
 class Localization:
     def __getitem__(self, name):
@@ -44,6 +46,16 @@ def create_app(app_config, initialize_db=False):
         response = make_response(redirect('/login'))
         unset_jwt_cookies(response)
         return response, 302
+
+    @jwt.user_lookup_loader()
+    def handle_user_load(jwt_header, jwt_payload):
+        """Finds user with same id as is in cookie"""
+
+        user_id = jwt_payload["sub"]
+
+        return db.session.execute(
+            db.select(models.User).filter_by(id=user_id)
+        ).scalar_one_or_none()
 
     @app.route("/")
     @app.route("/index")
@@ -110,8 +122,6 @@ def create_app(app_config, initialize_db=False):
         response = make_response(redirect('/index'))
         unset_jwt_cookies(response)
         return response, 302
-
-
 
     @app.route("/user/<int:user_id>", methods=["GET"])
     def user_by_id_get(user_id):
@@ -181,7 +191,5 @@ def create_app(app_config, initialize_db=False):
             return redirect("/index", 302)
 
         return render_template("register.html", localization=localization)
-
-
 
     return app
