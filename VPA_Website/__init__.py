@@ -31,6 +31,12 @@ def create_app(app_config, initialize_db=False):
     # load localization (implement translations
     localization = Localization()
 
+    @jwt.unauthorized_loader
+    def handle_unauthorized_request(message):
+        """Handler for requests with missing cookie"""
+
+        return redirect("/login", 302)
+
     @app.route("/")
     @app.route("/index")
     def index_get():
