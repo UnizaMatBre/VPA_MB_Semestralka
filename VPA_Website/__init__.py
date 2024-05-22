@@ -60,6 +60,9 @@ def create_app(app_config, initialize_db=False):
     from VPA_Website.auth_views import create_auth_blueprint
     app.register_blueprint(create_auth_blueprint(db, models, localization))
 
+    from VPA_Website.user_views import create_user_blueprint
+    app.register_blueprint(create_user_blueprint(db, models, localization))
+
     @app.route("/")
     @app.route("/index")
     @jwt_required(optional=True)
