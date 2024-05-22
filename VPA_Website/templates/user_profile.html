@@ -8,6 +8,16 @@
     {% else %}
         <div class="content-top-div">
             <h1>{{ user_obj.username }}</h1>
+            <p>{{ localization['PAGE_PROFILE_PROJECT_COUNT'] }} : {{ user_obj.projects|length }}</p>
         </div>
+
+        <hr />
+
+        {% for one_project in user_obj.projects %}
+            <div class="content-top-div">
+                <h2>{{ one_project.name }}</h2>
+                <p>{{ one_project.description}}</p>
+            </div>
+        {% endfor %}
     {% endif %}
 {% endblock %}
