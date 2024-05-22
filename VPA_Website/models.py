@@ -11,7 +11,7 @@ class User(db.Model):
     username: Mapped[str] = mapped_column(nullable=False, unique=True)
     passhash: Mapped[str] = mapped_column(nullable=False)
 
-    projects: Mapped[list["Project"]] = relationship()
+    projects: Mapped[list["Project"]] = relationship(back_populates="owner")
 
 
 class Project(db.Model):
@@ -20,6 +20,8 @@ class Project(db.Model):
 
     name: Mapped[str] = mapped_column(nullable=False)
     description: Mapped[str] = mapped_column(nullable=True)
+
+    owner: Mapped["User"] = relationship(back_populates="projects")
 
     categories: Mapped[list["ItemCategory"]] = relationship()
 
