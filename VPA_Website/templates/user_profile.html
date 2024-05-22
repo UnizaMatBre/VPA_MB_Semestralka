@@ -15,7 +15,7 @@
 
         {% for one_project in user_obj.projects %}
             <div class="content-top-div">
-                <h2>{{ one_project.name }}</h2>
+                <h2><a href="{{ url_for('project_blueprint.project_by_id_get', project_id=one_project.id) }}">{{ one_project.name }}</a></h2>
                 <p>{{ one_project.description}}</p>
             </div>
         {% endfor %}
