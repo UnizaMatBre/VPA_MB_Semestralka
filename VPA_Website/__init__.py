@@ -32,7 +32,7 @@ def create_app(app_config, initialize_db=False):
     localization = Localization()
 
     @jwt.unauthorized_loader
-    def handle_unauthorized_request(message):
+    def handle_missing_auth_cookie(message):
         """Handler for requests with missing cookie"""
 
         return redirect("/login", 302)
