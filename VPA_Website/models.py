@@ -16,7 +16,7 @@ class User(db.Model):
 
 class Project(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    user_id: Mapped["User"] = mapped_column(ForeignKey("user.id"))
+    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
 
     name: Mapped[str] = mapped_column(nullable=False)
     description: Mapped[str] = mapped_column(nullable=True)
@@ -28,7 +28,7 @@ class ItemCategory(db.Model):
     __tablename__ = "item_category"
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    project_id: Mapped["Project"] = mapped_column(ForeignKey("project.id"))
+    project_id: Mapped[int] = mapped_column(ForeignKey("project.id"))
 
     name: Mapped[str] = mapped_column(nullable=False)
     description: Mapped[str] = mapped_column(nullable=True)
@@ -38,7 +38,7 @@ class ItemCategory(db.Model):
 
 class Item(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    category_id: Mapped["ItemCategory"] = mapped_column(ForeignKey("item_category.id"))
+    category_id: Mapped[int] = mapped_column(ForeignKey("item_category.id"))
 
     name: Mapped[str] = mapped_column(nullable=False)
     description: Mapped[str] = mapped_column(nullable=True)
