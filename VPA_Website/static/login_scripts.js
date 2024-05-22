@@ -20,7 +20,8 @@ loginFormSubmit = function(e) {
     handleFetchPromise( fetch("/login", options),
         // handle correct result
         (jsonData) => {
-            console.log("Login successful");
+            console.log("Login successfully");
+            window.location.replace("/index");
         },
 
         // handle api error
@@ -43,9 +44,9 @@ loginFormSubmit = function(e) {
         // handle fetch error
         (fetchError) => {
             let messageText = "";
-            messageText += apiError.status;
+            messageText += fetchError.status;
             messageText += " ";
-            messageText += apiError.statusText;
+            messageText += fetchError.statusText;
 
             showErrorMessage(messageText);
         }

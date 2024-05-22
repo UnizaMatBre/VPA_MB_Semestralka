@@ -77,7 +77,7 @@ def create_app(app_config, initialize_db=False):
             return jsonify({"msg": "Bad credentials"}), 401
 
         # everything is ok, generate token and response
-        response = make_response(redirect("/index", 302))
+        response = make_response(jsonify("{}"), 200)
         access_token = create_access_token(identity=str(result.id))
         set_access_cookies(response, access_token)
 
