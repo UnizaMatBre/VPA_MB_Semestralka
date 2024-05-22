@@ -47,3 +47,7 @@ hideMessage = function() {
 
     document.getElementById("message-section").style.display = "none";
 }
+
+const getCookieValue = function(name){
+  return document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)')?.pop() || ''
+}

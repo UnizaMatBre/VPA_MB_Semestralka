@@ -10,7 +10,7 @@ createProjectFormSubmit = function(e) {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "X-CSRF-TOKEN": "L",
+            "X-CSRF-TOKEN": getCookieValue("csrf_access_token"),
         },
         credentials: 'same-origin',
         body: JSON.stringify({
