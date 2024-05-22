@@ -1,0 +1,16 @@
+{% extends "_base.html" %}
+
+{% block content %}
+    {% if project_obj is none %}
+        <div class="content-top-div">
+            <h1>{{ localization['PAGE_PROJECT_PROFILE_PROJECT_NOT_FOUND'] }}</h1>
+        </div>
+    {% else %}
+        <div class="content-top-div">
+            <h1>{{ project_obj.username }}</h1>
+
+        </div>
+
+
+    {% endif %}
+{% endblock %}

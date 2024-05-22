@@ -10,4 +10,17 @@ def create_project_blueprint(db, models, localization):
         template_folder="templates"
     )
 
+    @project_blueprint.route("/project/<int:project_id>")
+    def project_by_id_get(project_id):
+        result = db.session.execute(
+            db.select(models.Project).filter_by(id=project_id)
+        ).scalar_one_or_none()
+
+        return render_template(
+            "project_profile.html",
+            auth_user=get_current_user(),
+            localization=localization,
+            project_obj=result
+        )
+
     return project_blueprint
