@@ -134,8 +134,10 @@ def create_app(app_config, initialize_db=False):
         db.session.add(new_user)
 
         # create response
-        response = make_response("", 201)
-        response.headers["Location"] = "/user/" + new_user
+        response = make_response(jsonify("{}"), 201)
+        response.headers["Location"] = "/user/" + str(new_user.id)
+
+        db.session.commit()
 
         return response
 
