@@ -123,3 +123,7 @@
 .category-title-section {
     text-align: center;
 }
+
+.is-being-dragged {
+    box-shadow: 0px 5px 15px black;
+}

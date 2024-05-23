@@ -58,3 +58,17 @@ createCategoryFormSubmit = function(e) {
 }
 
 document.getElementById("create-category-form").addEventListener("submit", createCategoryFormSubmit)
+
+
+const draggables = document.querySelectorAll(".item-div");
+const droppables = document.querySelectorAll(".category-items-section");
+
+draggables.forEach((item) => {
+    item.addEventListener("dragstart", () => {
+        item.classList.add("is-being-dragged");
+    });
+
+    item.addEventListener("dragend", () => {
+        item.classList.remove("is-being-dragged");
+    });
+});
