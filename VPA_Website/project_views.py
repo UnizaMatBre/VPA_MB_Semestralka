@@ -62,4 +62,42 @@ def create_project_blueprint(db, models, localization):
 
         return response
 
+    @project_blueprint.route("/project/<int:project_id>/category", methods=["POST"])
+    @jwt_required(optional=True)
+    def category_post(project_id):
+        """Creates category for specified project"""
+
+        input_user = get_jwt_identity()
+        input_name = request.json.get("name", None)
+
+        # is someone even logged
+        if input_user is None:
+            return jsonify({"msg": "Missing credentials"}), 401
+
+        project_obj = db.session.execute(
+            db.select(models.Project).filter_by(id=project_id)
+        ).scalar_one_or_none()
+
+        # does project even exists
+        if project_obj is None:
+            return jsonify({"msg": "Project doesn't exist"}), 404
+
+        # does current user owns the project
+        if project_obj.user_id != input_user:
+            jsonify({"msg": "Wrong credentials"}), 403
+
+        # is there category with the same name already?
+        if len(filter(lambda item: item.name == input_name, project_obj.categories)) > 0:
+            return jsonify({"msg": "Category with this name already exists"}), 409
+
+        new_category = models.Category(
+            project_id=project_id,
+            name=input_name
+        )
+
+        db.session.add(new_category)
+        db.session.commit()
+
+        return jsonify({}), 201
+
     return project_blueprint
