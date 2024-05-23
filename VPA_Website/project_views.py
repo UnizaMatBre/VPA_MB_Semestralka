@@ -147,9 +147,9 @@ def create_project_blueprint(db, models):
     def item_put(item_id):
         """Changes data of item, in most cases category id"""
 
-        new_group_id = int(request.json.get("group_id", None))
+        new_group_id = int(request.json.get("category_id", None))
         if new_group_id is None:
-            return jsonify({"msg": "Missing group id"}), 422
+            return jsonify({"msg": "Missing category id"}), 422
 
         item_obj = db.session.execute(
             db.select(models.Item).filter_by(id=item_id)

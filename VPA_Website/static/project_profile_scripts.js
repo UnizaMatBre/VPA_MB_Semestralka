@@ -122,12 +122,21 @@ document.querySelectorAll(".create-item-form").forEach((itemForm) => {
     itemForm.addEventListener("submit", createItemFormSubmit)
 });
 
+
+
+
+
+
 const draggables = document.querySelectorAll(".item-div");
 const droppables = document.querySelectorAll(".category-items-section");
 
+let item_id = 0;
+
 draggables.forEach((item) => {
-    item.addEventListener("dragstart", () => {
+    item.addEventListener("dragstart", (e) => {
         item.classList.add("is-being-dragged");
+
+        item_id = e.target.querySelector('input[type="hidden"]').value;
     });
 
     item.addEventListener("dragend", () => {
@@ -151,7 +160,59 @@ droppables.forEach((category) => {
     category.addEventListener("drop", (e) => {
         console.log("dropped");
 
-        let beingDragged = document.querySelectorAll(".is-being-dragged");
+        const category_id = e.target.querySelector('input[type="hidden"]').value;
+
+
+        options = {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": getCookieValue("csrf_access_token"),
+            },
+            credentials: 'same-origin',
+            body: JSON.stringify({
+		        "category_id": category_id
+	        })
+        };
+
+
+        endpoint = "/item/" + item_id;
+
+        handleFetchPromise( fetch(endpoint, options),
+            // handle correct result
+            (jsonData) => {
+                console.log("Item moved successfully");
+            },
+
+            // handle api error
+            (apiError) => {
+                // get status number
+                // TODO: this is garbage, fix it
+                let messageText = "";
+                messageText += apiError.status;
+                messageText += " ";
+                messageText += apiError.statusText;
+                messageText += ": ";
+
+                apiError.json().then((apiErrorJson) => {
+                    messageText += apiErrorJson["msg"];
+
+                    showErrorMessage(messageText);
+                });
+            },
+
+            // handle fetch error
+            (fetchError) => {
+                let messageText = "";
+                messageText += fetchError.status;
+                messageText += " ";
+                messageText += fetchError.statusText;
+
+                showErrorMessage(messageText);
+            }
+
+        )
+
     });
 
 });

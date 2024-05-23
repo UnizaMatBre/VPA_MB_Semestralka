@@ -42,7 +42,7 @@
                     </div>
                     <hr />
                     <div class="category-items-section">
-
+                        <input type="hidden" value="{{ one_category.id }}" />
                         <div class="content-top-div">
                             <h4>CREATE ITEM</h4>
 
@@ -58,6 +58,7 @@
                         </div>
                         {% for one_item in one_category.items %}
                             <div class="content-top-div item-div" draggable="true">
+                                <input type="hidden" value="{{ one_item.id }}" />
                                 {{ one_item.name }}
                             </div>
                         {% endfor %}
