@@ -194,7 +194,7 @@ def create_project_blueprint(db, models):
             return jsonify({"msg": "Unauthorized access"}), 401
 
         category_obj = db.session.execute(
-            db.select(models.Item).filter_by(id=category_id)
+            db.select(models.ItemCategory).filter_by(id=category_id)
         ).scalar_one_or_none()
 
         # does this object even exists
@@ -223,7 +223,7 @@ def create_project_blueprint(db, models):
             return jsonify({"msg": "Unauthorized access"}), 401
 
         project_obj = db.session.execute(
-            db.select(models.Item).filter_by(id=project_id)
+            db.select(models.Project).filter_by(id=project_id)
         ).scalar_one_or_none()
 
         # does this object even exists
