@@ -142,4 +142,41 @@ def create_project_blueprint(db, models):
 
         return jsonify({}), 201
 
+    @project_blueprint.route("/item/<int:item_id>", methods=["PUT"])
+    @jwt_required(optional=True)
+    def item_put(item_id):
+        """Changes data of item, in most cases category id"""
+
+        new_group_id = int(request.json.get("group_id", None))
+        if new_group_id is None:
+            return jsonify({"msg": "Missing group id"}), 422
+
+        item_obj = db.session.execute(
+            db.select(models.Item).filter_by(id=item_id)
+        ).scalar_one_or_none()
+
+        if item_obj is None:
+            return jsonify({"msg": "Requested item doesn't exist"}), 404
+
+        item_obj.category_id = new_group_id
+        db.session.commit()
+
+        return jsonify({}), 200
+
+    @project_blueprint.route("/item/<int:item_id>", methods=["DELETE"])
+    @jwt_required(optional=True)
+    def item_delete(item_id):
+        item_obj = db.session.execute(
+            db.select(models.Item).filter_by(id=item_id)
+        ).scalar_one_or_none()
+
+        if item_obj is None:
+            return jsonify({"msg": "Requested item doesn't exist"}), 404
+
+        db.session.delete(item_obj)
+        db.session.commit()
+
+        return jsonify({}), 200
+
+
     return project_blueprint
