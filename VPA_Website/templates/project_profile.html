@@ -15,5 +15,15 @@
                 <p>{{ project_obj.description }}</p>
             </div>
         </div>
+
+        <hr />
+
+        <div>
+            {% for one_category in project_obj.categories %}
+                <div class="content-top-div">
+                    <h2>{{ one_category.name }}</h2>
+                </div>
+            {% endfor %}
+        </div>
     {% endif %}
 {% endblock %}
