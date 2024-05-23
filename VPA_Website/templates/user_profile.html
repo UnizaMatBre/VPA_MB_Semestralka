@@ -3,29 +3,29 @@
 {% block content %}
     {% if user_obj is none %}
         <div class="content-top-div">
-            <h1>{{ localization['PAGE_PROFILE_USER_NOT_FOUND'] }}</h1>
+            <h1>This user doesn't exist</h1>
         </div>
     {% else %}
         <div class="content-top-div">
             <h1>{{ user_obj.username }}</h1>
-            <p>{{ localization['PAGE_PROFILE_PROJECT_COUNT'] }} : {{ user_obj.projects|length }}</p>
+            <p>Number of projects : {{ user_obj.projects|length }}</p>
         </div>
 
         {% if (auth_user is not none) and (user_obj.id == auth_user.id)  %}
             <div class="content-top-div">
-                <h2>{{ localization['PAGE_USER_PROFILE_CREATE_PROJECT'] }}</h2>
+                <h2>CREATE PROJECT</h2>
                 <form id="create-project-form">
                     <div class="form-label-input-div">
-                        <label for="project-name">{{localization["PAGE_USER_PROFILE_CREATE_PROJECT_NAME"]}}</label>
+                        <label for="project-name">Name</label>
                         <input type="text" name="project-name" id="project-name" required/>
                     </div>
 
                     <div class="form-label-input-div">
-                        <label for="project-desc">{{localization["PAGE_USER_PROFILE_CREATE_PROJECT_DESC"]}}</label>
+                        <label for="project-desc">Description</label>
                         <input type="text" name="project-desc" id="project-desc"/>
                     </div>
 
-                    <input type="submit" value="{{ localization['PAGE_LOGIN_SUBMIT_LABEL'] }}" />
+                    <input type="submit" value="Create" />
                 </form>
             </div>
         {% endif %}

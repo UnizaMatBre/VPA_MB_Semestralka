@@ -3,7 +3,7 @@ from flask_jwt_extended import JWTManager, set_access_cookies, create_access_tok
 import bcrypt
 
 
-def create_user_blueprint(db, models, localization):
+def create_user_blueprint(db, models):
     user_blueprint = Blueprint(
         "user_blueprint",
         __name__,
@@ -20,8 +20,11 @@ def create_user_blueprint(db, models, localization):
             db.select(models.User).filter_by(id=user_id)
         ).scalar_one_or_none()
 
-        return render_template("user_profile.html", auth_user=get_current_user(), localization=localization,
-                               user_obj=result)
+        return render_template(
+            "user_profile.html",
+            auth_user=get_current_user(),
+            user_obj=result
+        )
 
     @user_blueprint.route("/user", methods=["POST"])
     def user_post():

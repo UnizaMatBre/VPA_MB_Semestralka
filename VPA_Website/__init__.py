@@ -4,10 +4,6 @@ from flask_sqlalchemy import SQLAlchemy
 import bcrypt
 
 
-class Localization:
-    def __getitem__(self, name):
-        return name
-
 
 def create_app(app_config, initialize_db=False):
     app = Flask(
@@ -28,9 +24,6 @@ def create_app(app_config, initialize_db=False):
     if initialize_db:
         with app.app_context():
             db.create_all()
-
-    # load localization (implement translations
-    localization = Localization()
 
     @jwt.unauthorized_loader
     def handle_missing_auth_cookie(message):
@@ -60,20 +53,20 @@ def create_app(app_config, initialize_db=False):
 
     # register blueprints
     from VPA_Website.auth_views import create_auth_blueprint
-    app.register_blueprint(create_auth_blueprint(db, models, localization))
+    app.register_blueprint(create_auth_blueprint(db, models))
 
     from VPA_Website.user_views import create_user_blueprint
-    app.register_blueprint(create_user_blueprint(db, models, localization))
+    app.register_blueprint(create_user_blueprint(db, models))
 
     from VPA_Website.project_views import create_project_blueprint
-    app.register_blueprint(create_project_blueprint(db, models, localization))
+    app.register_blueprint(create_project_blueprint(db, models))
 
     @app.route("/")
     @app.route("/index")
     @jwt_required(optional=True)
     def index_get():
 
-        return render_template("index.html", auth_user=get_current_user(), localization=localization)
+        return render_template("index.html", auth_user=get_current_user())
 
     @app.route("/protected", methods=["GET"])
     @jwt_required()

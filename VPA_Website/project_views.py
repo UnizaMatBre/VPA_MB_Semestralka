@@ -4,7 +4,7 @@ from flask_jwt_extended import JWTManager, set_access_cookies, create_access_tok
 import bcrypt
 
 
-def create_project_blueprint(db, models, localization):
+def create_project_blueprint(db, models):
     project_blueprint = Blueprint(
         "project_blueprint",
         __name__,
@@ -21,7 +21,6 @@ def create_project_blueprint(db, models, localization):
         return render_template(
             "project_profile.html",
             auth_user=get_current_user(),
-            localization=localization,
             project_obj=result
         )
 

@@ -10,13 +10,13 @@
     <body>
         <div id="menu-section">
             <menu>
-                <li><a href="/index">{{ localization["MENU_INDEX"] }}</a></li>
+                <li><a href="/index">INDEX</a></li>
                 {% if auth_user is none %}
-                    <li><a href="/login">{{ localization["MENU_LOGIN"] }}</a></li>
-                    <li><a href="/register">{{ localization["MENU_REGIS"] }}</a></li>
+                    <li><a href="/login">LOGIN</a></li>
+                    <li><a href="/register">REGISTER</a></li>
                 {% else %}
-                    <li><a href="{{ url_for('user_blueprint.user_by_id_get', user_id=auth_user.id) }}">{{ localization["MENU_PROFL"] }}</a></li>
-                    <li><a href="/logout">{{ localization["MENU_LOGOT"] }}</a></li>
+                    <li><a href="{{ url_for('user_blueprint.user_by_id_get', user_id=auth_user.id) }}">PROFILE</a></li>
+                    <li><a href="/logout">LOGOUT</a></li>
 
 
                 {% endif %}
@@ -38,7 +38,7 @@
             <hr />
 
             <div id="footnote-section">
-                {{ localization["PAGE_FOOTNOTE"] }}
+                Created as exercise for VPA
             </div>
 
         </div>

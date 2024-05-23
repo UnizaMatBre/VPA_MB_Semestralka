@@ -3,7 +3,7 @@ from flask_jwt_extended import JWTManager, set_access_cookies, create_access_tok
 import bcrypt
 
 
-def create_auth_blueprint(db, models, localization):
+def create_auth_blueprint(db, models):
     auth_blueprint = Blueprint(
         "auth_blueprint",
         __name__,
@@ -21,7 +21,7 @@ def create_auth_blueprint(db, models, localization):
             # TODO: Is 302 good here?
             return redirect("/index", 302)
 
-        return render_template("login.html", auth_user=None, localization=localization)
+        return render_template("login.html", auth_user=None)
 
     @auth_blueprint.route("/login", methods=["POST"])
     def login_post():
@@ -77,6 +77,6 @@ def create_auth_blueprint(db, models, localization):
             # TODO: Is 302 good here?
             return redirect("/index", 302)
 
-        return render_template("register.html", auth_user=None, localization=localization)
+        return render_template("register.html", auth_user=None)
 
     return auth_blueprint
