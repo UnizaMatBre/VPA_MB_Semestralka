@@ -86,10 +86,10 @@ def create_project_blueprint(db, models):
             jsonify({"msg": "Wrong credentials"}), 403
 
         # is there category with the same name already?
-        if len(filter(lambda item: item.name == input_name, project_obj.categories)) > 0:
+        if len([item for item in project_obj.categories if item.name == input_name]) > 0:
             return jsonify({"msg": "Category with this name already exists"}), 409
 
-        new_category = models.Category(
+        new_category = models.ItemCategory(
             project_id=project_id,
             name=input_name
         )
