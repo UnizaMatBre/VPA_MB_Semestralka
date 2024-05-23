@@ -99,4 +99,47 @@ def create_project_blueprint(db, models):
 
         return jsonify({}), 201
 
+    @project_blueprint.route("/category/<int:category_id>/item", methods=["POST"])
+    @jwt_required(optional=True)
+    def item_post(category_id):
+        """Creates new item in specified category"""
+
+        input_user = get_jwt_identity()
+        input_name = request.json.get("name", None)
+
+        # is input name even there?
+        if input_name is None:
+            return jsonify({"msg": "Missing username"}), 422
+
+        # is someone even logged?
+        if input_user is None:
+            return jsonify({"msg": "Missing credentials"}), 401
+
+        category_obj = db.session.execute(
+            db.select(models.Project).filter_by(id=category_id)
+        ).scalar_one_or_none()
+
+        # does category even exists
+        if category_obj is None:
+            return jsonify({"msg": "Project doesn't exist"}), 404
+
+        # does current user owns the category
+        if category_obj.my_project.user_id != input_user:
+            return jsonify({"msg": "Wrong credentials"}), 403
+
+        # is there item with the same name already?
+        if len([item for item in category_obj.items if item.name == input_name]) > 0:
+            return jsonify({"msg": "Item with this name already exists"}), 409
+
+
+        new_item = models.Item(
+            category_id=category_id,
+            name=input_name
+        )
+
+        db.session.add(new_item)
+        db.session.commit()
+
+        return jsonify({}), 201
+
     return project_blueprint
