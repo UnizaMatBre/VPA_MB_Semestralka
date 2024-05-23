@@ -118,6 +118,64 @@ createItemFormSubmit = function(e) {
 }
 
 
+deleteObject = function(objectType, id) {
+    // create optional part of fetch
+    options = {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": getCookieValue("csrf_access_token"),
+        },
+        credentials: 'same-origin',
+        body: JSON.stringify({})
+    };
+
+    const endpoint = "/" + objectType + "/" + id;
+
+    handleFetchPromise( fetch(endpoint, options),
+        // handle correct result
+        (jsonData) => {
+            if(objectType === "project") {
+                window.location.replace("/index");
+            }
+            else {
+                window.location.reload();
+            }
+
+        },
+
+        // handle api error
+        (apiError) => {
+            // get status number
+            // TODO: this is garbage, fix it
+            let messageText = "";
+            messageText += apiError.status;
+            messageText += " ";
+            messageText += apiError.statusText;
+            messageText += ": ";
+
+            apiError.json().then((apiErrorJson) => {
+                messageText += apiErrorJson["msg"];
+
+                showErrorMessage(messageText);
+            });
+        },
+
+        // handle fetch error
+        (fetchError) => {
+            let messageText = "";
+            messageText += fetchError.status;
+            messageText += " ";
+            messageText += fetchError.statusText;
+
+            showErrorMessage(messageText);
+        }
+    );
+}
+
+
+
+
 window.addEventListener("load", (event) => {
 
 document.getElementById("create-category-form").addEventListener("submit", createCategoryFormSubmit);
