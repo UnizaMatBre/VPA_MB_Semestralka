@@ -10,7 +10,7 @@
             <div>
                 <h1><a href="{{ url_for('user_blueprint.user_by_id_get', user_id=project_obj.user_id) }}">{{ project_obj.owner.username }}</a>/{{ project_obj.name }}</h1>
                 {% if (auth_user is not none) and (project_obj.user_id == auth_user.id) %}
-                    <button class="standard-button">X</button>
+                    <button class="standard-button" onclick="deleteObject('project', {{ project_obj.id }})">X</button>
                 {% endif %}
             </div>
             <hr />
@@ -44,7 +44,7 @@
 
                         <h2>
                             {% if (auth_user is not none) and (project_obj.user_id == auth_user.id) %}
-                                <button class="standard-button">X</button>
+                                <button class="standard-button" onclick="deleteObject('category', {{ one_category.id }})">X</button>
                             {% endif %}
                             {{ one_category.name }}
                         </h2>
@@ -70,7 +70,7 @@
                         {% for one_item in one_category.items %}
                             <div class="content-top-div item-div" draggable="true">
                                 {% if (auth_user is not none) and (project_obj.user_id == auth_user.id) %}
-                                    <button class="standard-button">X</button>
+                                    <button class="standard-button" onclick="deleteObject('item', {{ one_item.id }})">X</button>
                                 {% endif %}
                                 <input type="hidden" value="{{ one_item.id }}" />
                                 {{ one_item.name }}
