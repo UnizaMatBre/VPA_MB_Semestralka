@@ -131,7 +131,6 @@ def create_project_blueprint(db, models):
         if len([item for item in category_obj.items if item.name == input_name]) > 0:
             return jsonify({"msg": "Item with this name already exists"}), 409
 
-
         new_item = models.Item(
             category_id=category_id,
             name=input_name
@@ -166,6 +165,13 @@ def create_project_blueprint(db, models):
     @project_blueprint.route("/item/<int:item_id>", methods=["DELETE"])
     @jwt_required(optional=True)
     def item_delete(item_id):
+
+        user_id = int(get_jwt_identity())
+
+        # is someone logged in?
+        if user_id is None:
+            return jsonify({"msg": "Unauthorized access"}), 401
+
         item_obj = db.session.execute(
             db.select(models.Item).filter_by(id=item_id)
         ).scalar_one_or_none()
@@ -178,5 +184,64 @@ def create_project_blueprint(db, models):
 
         return jsonify({}), 200
 
+    @project_blueprint.route("/category/<int:category_id>", methods=["DELETE"])
+    @jwt_required(optional=True)
+    def category_delete(category_id):
+        user_id = int(get_jwt_identity())
+
+        # is someone logged in?
+        if user_id is None:
+            return jsonify({"msg": "Unauthorized access"}), 401
+
+        category_obj = db.session.execute(
+            db.select(models.Item).filter_by(id=category_id)
+        ).scalar_one_or_none()
+
+        # does this object even exists
+        if category_obj is None:
+            return jsonify({"msg": "Category doesn't exist"}), 404
+
+        # does this user has privileges
+        if category_obj.my_project.user_id != user_id:
+            return jsonify({"msg": "Forbidden access"}), 403
+
+        for one_item in category_obj.items:
+            db.session.delete(one_item)
+
+        db.session.delete(category_obj)
+        db.session.commit()
+
+        return jsonify({}), 200
+
+    @project_blueprint.route("/project/<int:project_id>", methods=["DELETE"])
+    @jwt_required(optional=True)
+    def project_delete(project_id):
+        user_id = int(get_jwt_identity())
+
+        # is someone logged in?
+        if user_id is None:
+            return jsonify({"msg": "Unauthorized access"}), 401
+
+        project_obj = db.session.execute(
+            db.select(models.Item).filter_by(id=project_id)
+        ).scalar_one_or_none()
+
+        # does this object even exists
+        if project_obj is None:
+            return jsonify({"msg": "Category doesn't exist"}), 404
+
+        # does this user has privileges
+        if project_obj.user_id != user_id:
+            return jsonify({"msg": "Forbidden access"}), 403
+
+        for one_category in project_obj.categories:
+            for one_item in one_category.items:
+                db.session.delete(one_item)
+            db.session.delete(one_category)
+
+        db.session.delete(project_obj)
+        db.session.commit()
+
+        return jsonify({}), 200
 
     return project_blueprint
