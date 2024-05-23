@@ -57,7 +57,68 @@ createCategoryFormSubmit = function(e) {
     )
 }
 
-document.getElementById("create-category-form").addEventListener("submit", createCategoryFormSubmit)
+
+createItemFormSubmit = function(e) {
+    e.preventDefault();
+
+    let itemForm = document.getElementById("create-item-form");
+
+    // create optional part of fetch
+    options = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": getCookieValue("csrf_access_token"),
+        },
+        credentials: 'same-origin',
+        body: JSON.stringify({
+		    "name": itemForm.elements["item-name"].value
+	    })
+    };
+
+    category_id = itemForm.elements["item-category-id"].value;
+
+    endpoint = "/category/" + category_id + "/item"
+
+    handleFetchPromise( fetch(endpoint, options),
+        // handle correct result
+        (jsonData) => {
+            console.log("Item created successfully");
+            window.location.reload();
+        },
+
+        // handle api error
+        (apiError) => {
+            // get status number
+            // TODO: this is garbage, fix it
+            let messageText = "";
+            messageText += apiError.status;
+            messageText += " ";
+            messageText += apiError.statusText;
+            messageText += ": ";
+
+            apiError.json().then((apiErrorJson) => {
+                messageText += apiErrorJson["msg"];
+
+                showErrorMessage(messageText);
+            });
+        },
+
+        // handle fetch error
+        (fetchError) => {
+            let messageText = "";
+            messageText += fetchError.status;
+            messageText += " ";
+            messageText += fetchError.statusText;
+
+            showErrorMessage(messageText);
+        }
+
+    )
+}
+
+document.getElementById("create-category-form").addEventListener("submit", createCategoryFormSubmit);
+document.getElementById("create-item-form"    ).addEventListener("submit", createItemFormSubmit);
 
 
 const draggables = document.querySelectorAll(".item-div");
