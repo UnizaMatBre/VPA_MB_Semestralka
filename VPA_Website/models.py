@@ -23,7 +23,7 @@ class Project(db.Model):
 
     owner: Mapped["User"] = relationship(back_populates="projects")
 
-    categories: Mapped[list["ItemCategory"]] = relationship()
+    categories: Mapped[list["ItemCategory"]] = relationship(back_populates="my_project")
 
 
 class ItemCategory(db.Model):
@@ -31,6 +31,8 @@ class ItemCategory(db.Model):
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     project_id: Mapped[int] = mapped_column(ForeignKey("project.id"))
+
+    my_project: Mapped["Project"] = relationship(back_populates="categories")
 
     name: Mapped[str] = mapped_column(nullable=False)
     description: Mapped[str] = mapped_column(nullable=True)
