@@ -37,12 +37,14 @@ class ItemCategory(db.Model):
     name: Mapped[str] = mapped_column(nullable=False)
     description: Mapped[str] = mapped_column(nullable=True)
 
-    items: Mapped[list["Item"]] = relationship()
+    items: Mapped[list["Item"]] = relationship(back_populates="category")
 
 
 class Item(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     category_id: Mapped[int] = mapped_column(ForeignKey("item_category.id"))
+
+    category: Mapped["ItemCategory"] = relationship(back_populates="items")
 
     name: Mapped[str] = mapped_column(nullable=False)
     description: Mapped[str] = mapped_column(nullable=True)
