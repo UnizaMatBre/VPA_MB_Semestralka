@@ -18,11 +18,18 @@
 
         <hr />
 
-        <div>
+        <div id="categories-section">
             {% for one_category in project_obj.categories %}
                 <div class="content-top-div">
-                    <h2>{{ one_category.name }}</h2>
+                    <div class="category-title-section">
+                        <h2>{{ one_category.name }}</h2>
+                    </div>
+                    <hr />
+                    <div class="category-items-section">
+
+                    </div>
                 </div>
+
             {% endfor %}
         </div>
     {% endif %}

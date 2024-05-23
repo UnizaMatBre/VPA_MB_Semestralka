@@ -107,3 +107,19 @@
 .standard-button:hover {
     text-decoration: underline;
 }
+
+#categories-section {
+    display: flex;
+
+    overflow-x: scroll;
+}
+
+#categories-section > div {
+    min-width: 300px;
+    height: 100%;
+    margin: 10px;
+}
+
+.category-title-section {
+    text-align: center;
+}
