@@ -9,6 +9,9 @@
         <div class="content-top-div">
             <div>
                 <h1><a href="{{ url_for('user_blueprint.user_by_id_get', user_id=project_obj.user_id) }}">{{ project_obj.owner.username }}</a>/{{ project_obj.name }}</h1>
+                {% if (auth_user is not none) and (project_obj.user_id == auth_user.id) %}
+                    <button class="standard-button">X</button>
+                {% endif %}
             </div>
             <hr />
             <div>
