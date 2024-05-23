@@ -43,6 +43,7 @@
                     <hr />
                     <div class="category-items-section">
                         <input type="hidden" value="{{ one_category.id }}" />
+                        {% if (auth_user is not none) and (project_obj.user_id == auth_user.id) %}
                         <div class="content-top-div">
                             <h4>CREATE ITEM</h4>
 
@@ -56,6 +57,7 @@
                                 <input type="submit" value="Create" />
                             </form>
                         </div>
+                        {% endif %}
                         {% for one_item in one_category.items %}
                             <div class="content-top-div item-div" draggable="true">
                                 <input type="hidden" value="{{ one_item.id }}" />

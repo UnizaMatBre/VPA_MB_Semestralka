@@ -117,6 +117,9 @@ createItemFormSubmit = function(e) {
     )
 }
 
+
+window.addEventListener("load", (event) => {
+
 document.getElementById("create-category-form").addEventListener("submit", createCategoryFormSubmit);
 document.querySelectorAll(".create-item-form").forEach((itemForm) => {
     itemForm.addEventListener("submit", createItemFormSubmit)
@@ -214,5 +217,7 @@ droppables.forEach((category) => {
         )
 
     });
+
+});
 
 });
