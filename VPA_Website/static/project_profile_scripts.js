@@ -137,11 +137,21 @@ draggables.forEach((item) => {
 
 droppables.forEach((category) => {
     category.addEventListener("dragover", (e) => {
-        e.preventDefault()
+        e.preventDefault();
 
         const beingDragged = document.querySelector(".is-being-dragged");
 
         category.appendChild(beingDragged);
+    });
+
+    category.addEventListener("dragenter", (e) => {
+        e.preventDefault();
+    })
+
+    category.addEventListener("drop", (e) => {
+        console.log("dropped");
+
+        let beingDragged = document.querySelectorAll(".is-being-dragged");
     });
 
 });
