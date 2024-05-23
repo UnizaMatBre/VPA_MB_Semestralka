@@ -12,14 +12,15 @@ createCategoryFormSubmit = function(e) {
         },
         credentials: 'same-origin',
         body: JSON.stringify({
-		    "name": categoryForm.elements["project-name"].value
+		    "name": categoryForm.elements["category-name"].value
 	    })
     };
 
     project_id = categoryForm.elements["category-project-id"].value;
 
+    endpoint = "/project/" + project_id + "/category"
 
-    handleFetchPromise( fetch("/project/" + project_id + "/category", options),
+    handleFetchPromise( fetch(endpoint, options),
         // handle correct result
         (jsonData) => {
             console.log("Category created successfully");
