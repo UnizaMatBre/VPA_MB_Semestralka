@@ -38,7 +38,13 @@
             {% for one_category in project_obj.categories %}
                 <div class="content-top-div">
                     <div class="category-title-section">
-                        <h2>{{ one_category.name }}</h2>
+
+                        <h2>
+                            {% if (auth_user is not none) and (project_obj.user_id == auth_user.id) %}
+                                <button class="standard-button">X</button>
+                            {% endif %}
+                            {{ one_category.name }}
+                        </h2>
                     </div>
                     <hr />
                     <div class="category-items-section">
