@@ -104,7 +104,7 @@ def create_project_blueprint(db, models):
     def item_post(category_id):
         """Creates new item in specified category"""
 
-        input_user = get_jwt_identity()
+        input_user = int(get_jwt_identity())
         input_name = request.json.get("name", None)
 
         # is input name even there?
@@ -121,7 +121,7 @@ def create_project_blueprint(db, models):
 
         # does category even exists
         if category_obj is None:
-            return jsonify({"msg": "Project doesn't exist"}), 404
+            return jsonify({"msg": "Category doesn't exist"}), 404
 
         # does current user owns the category
         if category_obj.my_project.user_id != input_user:
