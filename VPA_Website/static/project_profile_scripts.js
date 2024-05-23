@@ -72,3 +72,14 @@ draggables.forEach((item) => {
         item.classList.remove("is-being-dragged");
     });
 });
+
+droppables.forEach((category) => {
+    category.addEventListener("dragover", (e) => {
+        e.preventDefault()
+
+        const beingDragged = document.querySelector(".is-being-dragged");
+
+        category.appendChild(beingDragged);
+    });
+
+});
