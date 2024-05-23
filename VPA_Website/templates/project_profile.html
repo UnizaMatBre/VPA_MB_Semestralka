@@ -42,6 +42,20 @@
                     </div>
                     <hr />
                     <div class="category-items-section">
+
+                        <div class="content-top-div">
+                            <h4>CREATE ITEM</h4>
+
+                            <form id="create-item-form">
+                                <div class="form-label-input-div">
+                                    <label for="item-name">Name</label>
+                                    <input type="text" name="item-name" id="item-name" required/>
+
+                                </div>
+                                <input type="hidden" id="item-category-id" name="item-project-id" value="{{one_category.id}}">
+                                <input type="submit" value="Create" />
+                            </form>
+                        </div>
                         {% for one_item in one_category.items %}
                             <div class="content-top-div item-div" draggable="true">
                                 {{ one_item.name }}
