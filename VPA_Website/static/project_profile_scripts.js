@@ -61,7 +61,7 @@ createCategoryFormSubmit = function(e) {
 createItemFormSubmit = function(e) {
     e.preventDefault();
 
-    let itemForm = document.getElementById("create-item-form");
+    let itemForm = e.submitter.parentNode;
 
     // create optional part of fetch
     options = {
@@ -118,8 +118,9 @@ createItemFormSubmit = function(e) {
 }
 
 document.getElementById("create-category-form").addEventListener("submit", createCategoryFormSubmit);
-document.getElementById("create-item-form"    ).addEventListener("submit", createItemFormSubmit);
-
+document.querySelectorAll(".create-item-form").forEach((itemForm) => {
+    itemForm.addEventListener("submit", createItemFormSubmit)
+});
 
 const draggables = document.querySelectorAll(".item-div");
 const droppables = document.querySelectorAll(".category-items-section");
