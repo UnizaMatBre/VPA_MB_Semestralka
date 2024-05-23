@@ -77,12 +77,31 @@
 
 
 .content-top-div {
-    background-color: yellow;
+    background-color: rgb(180, 180, 180);
     border: 2px solid gray;
     border-radius: 15px;
 
     padding: 20px;
     margin: 10px 0;
+}
+
+input[type=submit] {
+  background-color: rgb(70, 70, 70);
+  border: none;
+  color: white;
+  padding: 5px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+input[type=text] {
+  border: none;
+}
+
+input[type=text]:focus {
+  border-color: lightblue;
 }
 
 .form-label-input-div {
