@@ -15,7 +15,7 @@
                     <li><a href="/login">{{ localization["MENU_LOGIN"] }}</a></li>
                     <li><a href="/register">{{ localization["MENU_REGIS"] }}</a></li>
                 {% else %}
-                    <li><a href="{{ url_for('user_blueprint.user_by_id_get', user_id=auth_user.id) }}">{{ localization["MENU_PROFIL"] }}</a></li>
+                    <li><a href="{{ url_for('user_blueprint.user_by_id_get', user_id=auth_user.id) }}">{{ localization["MENU_PROFL"] }}</a></li>
                     <li><a href="/logout">{{ localization["MENU_LOGOT"] }}</a></li>
 
 
