@@ -60,6 +60,9 @@
                         {% endif %}
                         {% for one_item in one_category.items %}
                             <div class="content-top-div item-div" draggable="true">
+                                {% if (auth_user is not none) and (project_obj.user_id == auth_user.id) %}
+                                    <button class="standard-button">X</button>
+                                {% endif %}
                                 <input type="hidden" value="{{ one_item.id }}" />
                                 {{ one_item.name }}
                             </div>
