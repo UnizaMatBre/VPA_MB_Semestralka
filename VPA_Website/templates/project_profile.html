@@ -16,6 +16,20 @@
             </div>
         </div>
 
+        {% if (auth_user is not none) and (project_obj.user_id == auth_user.id) %}
+            <div class="content-top-div">
+                <h2>CREATE CATEGORY</h2>
+
+                 <form id="create-category-form">
+                    <div class="form-label-input-div">
+                        <label for="category-name">Name</label>
+                        <input type="text" name="category-name" id="category-name" required/>
+                    </div>
+
+                    <input type="submit" value="Create" />
+                </form>
+            </div>
+        {% endif %}
         <hr />
 
         <div id="categories-section">
