@@ -41,6 +41,15 @@ def create_app(app_config, initialize_db=False):
         unset_jwt_cookies(response)
         return response, 302
 
+    @jwt.expired_token_loader
+    def handle_expired_auth_cookie(message, message2):
+        """Handler for expire tokens"""
+
+        print("Expired access")
+        response = make_response(redirect('/login'))
+        unset_jwt_cookies(response)
+        return response, 302
+
     @jwt.user_lookup_loader
     def handle_user_load(jwt_header, jwt_payload):
         """Finds user with same id as is in cookie"""
