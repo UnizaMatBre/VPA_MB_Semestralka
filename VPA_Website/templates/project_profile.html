@@ -42,7 +42,11 @@
                     </div>
                     <hr />
                     <div class="category-items-section">
-
+                        {% for one_item in one_category.items %}
+                            <div class="content-top-div">
+                                {{ one_item.name }}
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
 
