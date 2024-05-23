@@ -116,7 +116,7 @@ def create_project_blueprint(db, models):
             return jsonify({"msg": "Missing credentials"}), 401
 
         category_obj = db.session.execute(
-            db.select(models.Project).filter_by(id=category_id)
+            db.select(models.ItemCategory).filter_by(id=category_id)
         ).scalar_one_or_none()
 
         # does category even exists
